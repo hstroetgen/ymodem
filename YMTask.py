@@ -18,6 +18,7 @@ class SendTask(object):
         self._missing_sent_packets = 0
         self._valid_sent_packets = 0
         self._valid_sent_bytes = 0
+        self._packet_size = 1024
     
     def inc_sent_packets(self):
         self._sent_packets += 1
@@ -42,8 +43,8 @@ class SendTask(object):
 
     def set_task_size(self, data_size):
         self._task_size = data_size
-        self._task_packets = math.ceil(data_size / 1024)
-        self._last_valid_packets_size = data_size % 1024
+        self._task_packets = math.ceil(data_size / self._packet_size)
+        self._last_valid_packets_size = data_size % self._packet_size
 
 class ReceiveTask(object):
     def __init__(self):
@@ -56,6 +57,7 @@ class ReceiveTask(object):
         self._missing_received_packets = 0
         self._valid_received_packets = 0
         self._valid_received_bytes = 0
+        self._packet_size = 128
     
     def inc_received_packets(self):
         self._received_packets += 1
@@ -86,8 +88,8 @@ class ReceiveTask(object):
 
     def set_task_size(self, data_size):
         self._task_size = data_size
-        self._task_packets = math.ceil(data_size / 1024)
-        self._last_valid_packets_size = data_size % 1024
+        self._task_packets = math.ceil(data_size / self._packet_size)
+        self._last_valid_packets_size = data_size % self._packet_size
     
     def get_task_name(self):
         return self._task_name
